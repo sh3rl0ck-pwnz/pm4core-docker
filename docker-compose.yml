@@ -11,7 +11,7 @@ services:
       - PM_BROADCASTER_PORT
     volumes:
       - ${PM_DOCKER_SOCK}:/var/run/docker.sock
-      - storage:/code/pm4/storage
+      - proc_m_storage:/code/pm4/storage
     links:
       - redis
       - mysql 
@@ -29,7 +29,17 @@ services:
       MYSQL_USER: pm
       MYSQL_PASSWORD: pass
     volumes:
-      - database:/var/lib/mysql
+      - proc_m_database:/var/lib/mysql
 volumes:
-  database:
-  storage:
+  proc_m_database:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/sherlock/Code/genesis_project/the_architect/process_manager/process_manager_data/database'
+  proc_m_storage:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/sherlock/Code/genesis_project/the_architect/process_manager/process_manager_data/storage'
